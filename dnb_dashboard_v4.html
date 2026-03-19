@@ -249,11 +249,9 @@
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--blue-l);color:#0C447C">Schade</span>
             <span style="font-size:13px;color:var(--text-3)">Motorrijtuigen, brand, aansprakelijkheid, transport en overige schade</span>
+            <label style="margin-left:auto;font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:6px">Jaar: <select id="sel-jaar-schade" onchange="updateSchade()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
           </div>
           <div class="kpi-row" id="kpi-schade-row"></div>
-          <div class="filters">
-            <label>Jaar: <select id="sel-jaar-schade" onchange="updateSchade()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
-          </div>
           <div class="kpi-row" id="kpi-ratio-schade" style="margin-bottom:16px"></div>
           <div class="grid-2">
             <div class="card">
@@ -280,15 +278,13 @@
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--amber-l);color:#633806">Inkomen</span>
             <span style="font-size:13px;color:var(--text-3)">Verzuim, WIA, WGA-ERD en AOV — kortlopend (non-SLT) + langlopend (SLT) gecombineerd</span>
+            <label style="margin-left:auto;font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:6px">Jaar: <select id="sel-jaar-inkomen" onchange="updateInkomen()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
           </div>
           <div class="note-box">
             <strong>Inkomensmarkt = non-life + life gecombineerd (methodologiebeslissing #7).</strong> De markt bestaat uit twee Solvency II-rapportagestromen die samen de volledige inkomensmarkt dekken: (1) <em>Non-life: verzuim, WIA-excedent en kortlopende AOV</em> — verzuimverzekering, WIA-excedent en kortlopende AOV (contracten zonder gegarandeerde looptijd/premie, non-SLT); (2) <em>Life: langlopende AOV en WGA-ERD</em> — langlopende AOV en WGA-ERD (contracten met gegarandeerde looptijd of premie, SLT-equivalent). Dezelfde verzekeraar rapporteert beide stromen in aparte QRT-sjablonen; optelling geeft de totale markt zonder dubbeltellingen.
           </div>
           <div class="kpi-row" id="kpi-inkomen-row"></div>
           <div class="kpi-row-3" id="kpi-ratio-inkomen" style="margin-top:-8px;margin-bottom:16px"></div>
-          <div class="filters">
-            <label>Jaar: <select id="sel-jaar-inkomen" onchange="updateInkomen()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
-          </div>
           <div class="grid-2">
             <div class="card">
               <div class="card-header"><div class="card-title">GWP per LOB (€ mln)</div></div>
@@ -314,6 +310,7 @@
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--teal-l);color:#085041">Zorg</span>
             <span style="font-size:13px;color:var(--text-3)">Zorgverzekering (Zvw + aanvullend) — medical expense LOB</span>
+            <label style="margin-left:auto;font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:6px">Jaar: <select id="sel-jaar-zorg" onchange="updateZorg()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
           </div>
           <div class="note-box">Zvw en aanvullende zorgverzekering zijn in de DNB-data niet te splitsen — beide vallen onder de LOB Medical expense. Zie data-selectiedocument methodologiebeslissing #7.</div>
           <div class="kpi-row-3" id="kpi-zorg-row"></div>
@@ -1409,16 +1406,19 @@ function updateInkomen(){
 }
 
 function updateZorg(){
-  const d2023=fyear(DATA.nlJaar,2023).filter(r=>r.segment==="Zorg");
-  const d2022=fyear(DATA.nlJaar,2022).filter(r=>r.segment==="Zorg");
+  const jaar=+(document.getElementById("sel-jaar-zorg")?.value||2024);
+  const prevJaar=jaar-1;
+  const d=fyear(DATA.nlJaar,jaar).filter(r=>r.segment==="Zorg");
+  const dp=fyear(DATA.nlJaar,prevJaar).filter(r=>r.segment==="Zorg");
   const d2020=fyear(DATA.nlJaar,2020).filter(r=>r.segment==="Zorg");
-  const v=sum(d2023); const pv=sum(d2022); const v20=sum(d2020);
+  const v=sum(d); const pv=sum(dp); const v20=sum(d2020);
   const g=pv>0?((v-pv)/pv*100):0;
   const g4=v20>0?((v-v20)/v20*100):0;
+  const nJaar=jaar-2020;
 
   document.getElementById("kpi-zorg-row").innerHTML=`
-    <div class="kpi"><div class="kpi-label">Totaal zorg 2023</div><div class="kpi-value">€ ${fmt(v)}</div><div class="kpi-sub"><span class="${g>=0?"kpi-up":"kpi-dn"}">${fmtPct(g)} vs. 2022</span></div></div>
-    <div class="kpi"><div class="kpi-label">Groei 2020–2023</div><div class="kpi-value"><span class="${g4>=0?"kpi-up":"kpi-dn"}">${fmtPct(g4)}</span></div><div class="kpi-sub">4-jaars groei</div></div>
+    <div class="kpi"><div class="kpi-label">Totaal zorg ${jaar}</div><div class="kpi-value">€ ${fmt(v)}</div><div class="kpi-sub"><span class="${g>=0?"kpi-up":"kpi-dn"}">${fmtPct(g)} vs. ${prevJaar}</span></div></div>
+    <div class="kpi"><div class="kpi-label">Groei 2020–${jaar}</div><div class="kpi-value"><span class="${g4>=0?"kpi-up":"kpi-dn"}">${fmtPct(g4)}</span></div><div class="kpi-sub">${nJaar}-jaars groei</div></div>
     <div class="kpi"><div class="kpi-label">LOB</div><div class="kpi-value" style="font-size:18px">Medical expense</div><div class="kpi-sub">Zvw + aanvullend gecombineerd</div></div>`;
 
   lineChart("chart-zorg-trend",JAREN.map(String),segTrendDatasets("Zorg"),{legend:false});
@@ -1431,12 +1431,11 @@ function updateZorg(){
     data:kwp.map(p=>Math.round(kwd.filter(r=>r.periode===p).reduce((a,r)=>a+r.gwp,0))||null)
   }],{legend:false,rotate:45});
 
-  // Ratio KPI's zorg
-  const rz23=DATA.ratios[2023]?.seg?.Zorg||{}; const rz22=DATA.ratios[2022]?.seg?.Zorg||{};
+  const rz=DATA.ratios[jaar]?.seg?.Zorg||{}; const rzp=DATA.ratios[prevJaar]?.seg?.Zorg||{};
   document.getElementById("kpi-ratio-zorg").innerHTML=
-    ratioKPI("Schaderatio zorg 2023",rz23.lr||0,0,rz23.lr||0,rz22.lr||0).replace('Schaderatio: ','').replace('· Exp: 0.0%','') +
-    ratioKPI("Expense ratio zorg 2023",0,rz23.er||0,rz23.er||0,rz22.er||0).replace('Loss: 0.0% · ','') +
-    ratioKPI("Combined ratio zorg 2023",rz23.lr||0,rz23.er||0,rz23.cr||0,rz22.cr||0);
+    ratioKPI(`Schaderatio zorg ${jaar}`,rz.lr||0,0,rz.lr||0,rzp.lr||0).replace('Schaderatio: ','').replace('· Exp: 0.0%','') +
+    ratioKPI(`Expense ratio zorg ${jaar}`,0,rz.er||0,rz.er||0,rzp.er||0).replace('Loss: 0.0% · ','') +
+    ratioKPI(`Combined ratio zorg ${jaar}`,rz.lr||0,rz.er||0,rz.cr||0,rzp.cr||0);
 }
 
 function updateTabel(){
