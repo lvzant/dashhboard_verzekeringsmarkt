@@ -143,74 +143,77 @@
       </div>
       <div id="dashboard-content" style="display:none">
 
-        <!-- TAB 1: Totale markt jaar - per segment -->
+        <!-- TAB 1: Totale markt jaar -->
         <div class="page active" id="page-totaal">
 
-          <!-- Schade -->
-          <div class="segment-header">
-            <span class="segment-badge" style="background:var(--blue-l);color:#0C447C">Schade</span>
-            <span style="font-size:13px;color:var(--text-3)">Motorrijtuigen, brand, aansprakelijkheid, transport en overige schade</span>
+          <!-- Kolom-labels -->
+          <div class="grid-3" style="margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="segment-badge" style="background:var(--blue-l);color:#0C447C">Schade</span>
+              <span style="font-size:11px;color:var(--text-3)">Motorrijtuigen, brand, aansprakelijkheid</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="segment-badge" style="background:var(--amber-l);color:#633806">Inkomen</span>
+              <span style="font-size:11px;color:var(--text-3)">Verzuim, WIA, WGA-ERD en AOV</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="segment-badge" style="background:var(--teal-l);color:#085041">Zorg</span>
+              <span style="font-size:11px;color:var(--text-3)">Zorgverzekering (Zvw + aanvullend)</span>
+            </div>
           </div>
-          <div class="kpi-row" id="tot-kpi-schade" style="margin-bottom:12px"></div>
-          <div class="grid-2" style="margin-bottom:32px">
+
+          <!-- Rij 1: GWP KPI's -->
+          <div class="kpi-row-3" id="tot-kpi-gwp" style="margin-bottom:16px"></div>
+
+          <!-- Rij 2: GWP grafieken -->
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">GWP trend 2020–2024 (€ mln)</div>
+          <div class="grid-3" style="margin-bottom:20px">
             <div class="card">
               <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:4px">
-                <div class="card-title">GWP Schade 2020–2024 (€ mln)</div>
+                <div class="card-title" style="color:#185FA5">Schade</div>
                 <div id="cagr-schade" style="font-size:12px;color:var(--text-3)"></div>
               </div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-totaal-schade-bar"></canvas></div>
-              <div class="source-note">GWP bruto directe verzekering · DNB Statistiek API</div>
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-totaal-schade-bar"></canvas></div>
+              <div class="source-note">DNB Statistiek API</div>
             </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title">Combined ratio Schade 2020–2024 (%)</div></div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-cr-schade-bar"></canvas></div>
-              <div class="source-note">Loss ratio + expense ratio op netto verdiende premies · DNB Statistiek API</div>
-            </div>
-          </div>
-
-          <!-- Inkomen -->
-          <div class="segment-header">
-            <span class="segment-badge" style="background:var(--amber-l);color:#633806">Inkomen</span>
-            <span style="font-size:13px;color:var(--text-3)">Verzuim, WIA, WGA-ERD en AOV — non-life + life gecombineerd</span>
-          </div>
-          <div class="kpi-row" id="tot-kpi-inkomen" style="margin-bottom:12px"></div>
-          <div class="grid-2" style="margin-bottom:32px">
             <div class="card">
               <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:4px">
-                <div class="card-title">GWP Inkomen 2020–2024 (€ mln)</div>
+                <div class="card-title" style="color:#BA7517">Inkomen</div>
                 <div id="cagr-inkomen" style="font-size:12px;color:var(--text-3)"></div>
               </div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-totaal-inkomen-bar"></canvas></div>
-              <div class="source-note">Non-life + life gecombineerd · DNB Statistiek API + Excel</div>
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-totaal-inkomen-bar"></canvas></div>
+              <div class="source-note">Non-life + life gecombineerd · DNB API + Excel</div>
             </div>
             <div class="card">
-              <div class="card-header"><div class="card-title">Combined ratio Inkomen 2020–2024 (%)</div></div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-cr-inkomen-bar"></canvas></div>
-              <div class="source-note">Loss ratio + expense ratio op netto verdiende premies · DNB Statistiek API</div>
+              <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:4px">
+                <div class="card-title" style="color:#0F6E56">Zorg</div>
+                <div id="cagr-zorg" style="font-size:12px;color:var(--text-3)"></div>
+              </div>
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-totaal-zorg-bar"></canvas></div>
+              <div class="source-note">DNB Statistiek API</div>
             </div>
           </div>
 
-          <!-- Zorg -->
-          <div class="segment-header">
-            <span class="segment-badge" style="background:var(--teal-l);color:#085041">Zorg</span>
-            <span style="font-size:13px;color:var(--text-3)">Zorgverzekering (Zvw + aanvullend) — medical expense LOB</span>
-          </div>
-          <div class="kpi-row" id="tot-kpi-zorg" style="margin-bottom:12px"></div>
-          <div class="grid-2" style="margin-bottom:20px">
+          <!-- Rij 3: Combined ratio grafieken -->
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">Combined ratio 2020–2024 (%)</div>
+          <div class="grid-3" style="margin-bottom:20px">
             <div class="card">
-              <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:4px">
-                <div class="card-title">GWP Zorg 2020–2024 (€ mln)</div>
-                <div id="cagr-zorg" style="font-size:12px;color:var(--text-3)"></div>
-              </div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-totaal-zorg-bar"></canvas></div>
-              <div class="source-note">GWP bruto directe verzekering · DNB Statistiek API</div>
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-cr-schade-bar"></canvas></div>
+              <div class="source-note">Schaderatio + expense ratio op netto verdiende premies</div>
             </div>
             <div class="card">
-              <div class="card-header"><div class="card-title">Combined ratio Zorg 2020–2024 (%)</div></div>
-              <div class="chart-wrap" style="height:220px"><canvas id="chart-cr-zorg-bar"></canvas></div>
-              <div class="source-note">Loss ratio + expense ratio op netto verdiende premies · DNB Statistiek API</div>
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-cr-inkomen-bar"></canvas></div>
+              <div class="source-note">Schaderatio + expense ratio op netto verdiende premies</div>
+            </div>
+            <div class="card">
+              <div class="chart-wrap" style="height:200px"><canvas id="chart-cr-zorg-bar"></canvas></div>
+              <div class="source-note">Schaderatio + expense ratio op netto verdiende premies</div>
             </div>
           </div>
+
+          <!-- Rij 4: Ratio detail -->
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">Ratio details — meest recente jaar</div>
+          <div class="grid-3" id="tot-ratio-detail" style="margin-bottom:20px"></div>
 
         </div>
 
@@ -1110,40 +1113,24 @@ function updateTotaal(){
     return (Math.pow(vN/v0, 1/n) - 1) * 100;
   }
 
-  function buildSegKPI(seg, kpiId) {
+  // Rij 1: GWP KPI tiles (3 stuks naast elkaar)
+  const segDefs = [
+    {seg:'Schade',  note:''},
+    {seg:'Inkomen', note:' · non-life + life'},
+    {seg:'Zorg',    note:''}
+  ];
+  document.getElementById('tot-kpi-gwp').innerHTML = segDefs.map(({seg, note}) => {
     const v = segJaarVal(seg, latestYear);
     const pv = segJaarVal(seg, prevYear);
     const g = pv > 0 ? ((v - pv) / pv * 100) : 0;
-    const r = DATA.ratios[latestYear]?.seg?.[seg] || {};
-    const rp = DATA.ratios[prevYear]?.seg?.[seg] || {};
-    const crDiff = rp.cr ? r.cr - rp.cr : null;
-    const crArrow = crDiff !== null
-      ? `<span class="${crDiff<=0?'kpi-up':'kpi-dn'}">${crDiff<=0?'▼':'▲'} ${Math.abs(crDiff).toFixed(1)}pp vs. ${prevYear}</span>`
-      : '';
-    const inkomenNote = seg === 'Inkomen' ? ' · non-life + life' : '';
-    document.getElementById(kpiId).innerHTML =
-      `<div class="kpi">
-        <div class="kpi-label">GWP ${latestYear}</div>
-        <div class="kpi-value">€ ${fmt(v)}</div>
-        <div class="kpi-sub"><span class="${g>=0?'kpi-up':'kpi-dn'}">${fmtPct(g)} vs. ${prevYear}</span>${inkomenNote}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Combined ratio ${latestYear}</div>
-        <div class="kpi-value" style="color:${ratioColor(r.cr||0)}">${(r.cr||0).toFixed(1)}%</div>
-        <div class="kpi-sub">${crArrow}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Loss ratio ${latestYear}</div>
-        <div class="kpi-value" style="font-size:20px">${(r.lr||0).toFixed(1)}%</div>
-        <div class="kpi-sub">op netto verdiende premies</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Expense ratio ${latestYear}</div>
-        <div class="kpi-value" style="font-size:20px">${(r.er||0).toFixed(1)}%</div>
-        <div class="kpi-sub">op netto verdiende premies</div>
-      </div>`;
-  }
+    return `<div class="kpi">
+      <div class="kpi-label">${seg} GWP ${latestYear}</div>
+      <div class="kpi-value">€ ${fmt(v)}</div>
+      <div class="kpi-sub"><span class="${g>=0?'kpi-up':'kpi-dn'}">${fmtPct(g)} vs. ${prevYear}</span>${note}</div>
+    </div>`;
+  }).join('');
 
+  // Rij 2: GWP bar charts
   function segBarChart(canvasId, seg, color) {
     const vals = JAREN.map(j => segJaarVal(seg, j));
     const c = cagrPct(vals[0], vals[vals.length-1], JAREN.length - 1);
@@ -1170,20 +1157,15 @@ function updateTotaal(){
         },
         scales: {
           x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-          y: {
-            ticks: { callback: v => fmtNL(v), font: { size: 10 } },
-            grid: { color: 'rgba(0,0,0,0.06)' }
-          }
+          y: { ticks: { callback: v => fmtNL(v), font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } }
         }
       }
     });
   }
 
+  // Rij 3: Combined ratio bar charts
   function crBarChart(canvasId, seg) {
-    const vals = JAREN.map(j => {
-      const r = DATA.ratios[j]?.seg?.[seg];
-      return r ? parseFloat(r.cr.toFixed(1)) : null;
-    });
+    const vals = JAREN.map(j => { const r = DATA.ratios[j]?.seg?.[seg]; return r ? parseFloat(r.cr.toFixed(1)) : null; });
     const barColors = vals.map(v => v === null ? '#ccc' : v < 90 ? '#3B6D11' : v < 100 ? '#BA7517' : '#A32D2D');
     const validVals = vals.filter(v => v !== null);
     const yMin = validVals.length ? Math.floor(Math.min(...validVals) / 5) * 5 - 5 : 80;
@@ -1194,54 +1176,44 @@ function updateTotaal(){
       data: {
         labels: JAREN.map(String),
         datasets: [
-          {
-            data: vals,
-            backgroundColor: barColors,
-            borderRadius: 4, borderSkipped: false,
-            order: 2
-          },
-          {
-            type: 'line',
-            label: '100%',
-            data: JAREN.map(() => 100),
-            borderColor: 'rgba(163,45,45,0.55)',
-            borderWidth: 1.5,
-            borderDash: [5, 4],
-            pointRadius: 0,
-            fill: false,
-            order: 1
-          }
+          { data: vals, backgroundColor: barColors, borderRadius: 4, borderSkipped: false, order: 2 },
+          { type:'line', data: JAREN.map(()=>100), borderColor:'rgba(163,45,45,0.55)', borderWidth:1.5, borderDash:[5,4], pointRadius:0, fill:false, order:1 }
         ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          tooltip: {
-            filter: item => item.datasetIndex === 0,
-            callbacks: { label: ctx => ctx.raw !== null ? ctx.raw.toFixed(1) + '%' : '—' }
-          }
+          tooltip: { filter: item => item.datasetIndex===0, callbacks: { label: ctx => ctx.raw!==null ? ctx.raw.toFixed(1)+'%' : '—' } }
         },
         scales: {
           x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-          y: {
-            min: yMin, max: yMax,
-            ticks: { callback: v => v + '%', font: { size: 10 } },
-            grid: { color: 'rgba(0,0,0,0.06)' }
-          }
+          y: { min: yMin, max: yMax, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } }
         }
       }
     });
   }
 
-  buildSegKPI('Schade', 'tot-kpi-schade');
-  buildSegKPI('Inkomen', 'tot-kpi-inkomen');
-  buildSegKPI('Zorg', 'tot-kpi-zorg');
+  // Rij 4: Ratio detail cards
+  document.getElementById('tot-ratio-detail').innerHTML = segDefs.map(({seg}) => {
+    const r = DATA.ratios[latestYear]?.seg?.[seg] || {};
+    const rp = DATA.ratios[prevYear]?.seg?.[seg] || {};
+    const crDiff = rp.cr ? r.cr - rp.cr : null;
+    const crArrow = crDiff !== null ? ` <span class="${crDiff<=0?'kpi-up':'kpi-dn'}">${crDiff<=0?'▼':'▲'} ${Math.abs(crDiff).toFixed(1)}pp</span>` : '';
+    const row = (label, val) => `<div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:12px;color:var(--text-3)">${label}</span>
+      <span style="font-size:14px;font-weight:600">${val}</span></div>`;
+    return `<div class="card" style="padding:16px 20px">
+      <div class="kpi-label" style="margin-bottom:10px">${seg} — ratio's ${latestYear}</div>
+      ${row('Combined ratio', `<span style="color:${ratioColor(r.cr||0)}">${(r.cr||0).toFixed(1)}%</span>${crArrow}`)}
+      ${row('Schaderatio', (r.lr||0).toFixed(1)+'%')}
+      ${row('Expense ratio', (r.er||0).toFixed(1)+'%')}
+    </div>`;
+  }).join('');
 
   segBarChart('chart-totaal-schade-bar', 'Schade', '#185FA5');
   segBarChart('chart-totaal-inkomen-bar', 'Inkomen', '#BA7517');
   segBarChart('chart-totaal-zorg-bar', 'Zorg', '#0F6E56');
-
   crBarChart('chart-cr-schade-bar', 'Schade');
   crBarChart('chart-cr-inkomen-bar', 'Inkomen');
   crBarChart('chart-cr-zorg-bar', 'Zorg');
@@ -1477,7 +1449,7 @@ function updateZorg(){
   // Ratio KPI's zorg
   const rz23=DATA.ratios[2023]?.seg?.Zorg||{}; const rz22=DATA.ratios[2022]?.seg?.Zorg||{};
   document.getElementById("kpi-ratio-zorg").innerHTML=
-    ratioKPI("Loss ratio zorg 2023",rz23.lr||0,0,rz23.lr||0,rz22.lr||0).replace('Loss: ','').replace('· Exp: 0.0%','') +
+    ratioKPI("Schaderatio zorg 2023",rz23.lr||0,0,rz23.lr||0,rz22.lr||0).replace('Schaderatio: ','').replace('· Exp: 0.0%','') +
     ratioKPI("Expense ratio zorg 2023",0,rz23.er||0,rz23.er||0,rz22.er||0).replace('Loss: 0.0% · ','') +
     ratioKPI("Combined ratio zorg 2023",rz23.lr||0,rz23.er||0,rz23.cr||0,rz22.cr||0);
 }
