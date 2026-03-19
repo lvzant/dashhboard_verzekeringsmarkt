@@ -146,15 +146,8 @@
         <!-- TAB 1: Totale markt jaar -->
         <div class="page active" id="page-totaal">
 
-          <!-- Kolom-labels -->
-          <div class="grid-3" style="margin-bottom:8px;align-items:center">
-            <div><span class="segment-badge" style="background:var(--blue-l);color:#0C447C">Schade</span></div>
-            <div><span class="segment-badge" style="background:var(--amber-l);color:#633806">Inkomen</span></div>
-            <div><span class="segment-badge" style="background:var(--teal-l);color:#085041">Zorg</span></div>
-          </div>
-
-          <!-- Rij 1: GWP KPI's -->
-          <div class="kpi-row-3" id="tot-kpi-gwp" style="margin-bottom:16px"></div>
+          <!-- Rij 1: GWP KPI's (badge + waarde in één tile) -->
+          <div class="grid-3" id="tot-kpi-gwp" style="margin-bottom:16px"></div>
 
           <!-- Rij 2: GWP grafieken -->
           <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">GWP trend 2020–2024 (€ mln)</div>
@@ -1104,18 +1097,19 @@ function updateTotaal(){
     return (Math.pow(vN/v0, 1/n) - 1) * 100;
   }
 
-  // Rij 1: GWP KPI tiles (3 stuks naast elkaar)
+  // Rij 1: GWP KPI tiles (badge + waarde in één tile, één grid)
   const segDefs = [
-    {seg:'Schade',  note:''},
-    {seg:'Inkomen', note:' · non-life + life'},
-    {seg:'Zorg',    note:''}
+    {seg:'Schade',  badge:'background:var(--blue-l);color:#0C447C',  note:''},
+    {seg:'Inkomen', badge:'background:var(--amber-l);color:#633806', note:' · non-life + life'},
+    {seg:'Zorg',    badge:'background:var(--teal-l);color:#085041',  note:''}
   ];
-  document.getElementById('tot-kpi-gwp').innerHTML = segDefs.map(({seg, note}) => {
+  document.getElementById('tot-kpi-gwp').innerHTML = segDefs.map(({seg, badge, note}) => {
     const v = segJaarVal(seg, latestYear);
     const pv = segJaarVal(seg, prevYear);
     const g = pv > 0 ? ((v - pv) / pv * 100) : 0;
     return `<div class="kpi">
-      <div class="kpi-label">${seg} GWP ${latestYear}</div>
+      <div style="margin-bottom:8px"><span class="segment-badge" style="${badge}">${seg}</span></div>
+      <div class="kpi-label">GWP ${latestYear}</div>
       <div class="kpi-value">€ ${fmt(v)}</div>
       <div class="kpi-sub"><span class="${g>=0?'kpi-up':'kpi-dn'}">${fmtPct(g)} vs. ${prevYear}</span>${note}</div>
     </div>`;
