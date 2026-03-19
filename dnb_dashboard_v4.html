@@ -66,6 +66,26 @@
   .filters label { font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 6px; }
   select { font-size: 13px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); color: var(--text); cursor: pointer; }
   .source-note { font-size: 11px; color: var(--text-3); margin-top: 8px; text-align: right; }
+  /* Info-knop en paneel */
+  .info-btn{width:26px;height:26px;border-radius:50%;background:rgba(24,95,165,0.08);border:1.5px solid rgba(24,95,165,0.25);color:#185FA5;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+  .info-btn:hover{background:rgba(24,95,165,0.16);border-color:#185FA5;}
+  .info-bar{display:flex;justify-content:flex-end;margin-bottom:10px;}
+  .info-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.2);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+  .info-backdrop.open{opacity:1;pointer-events:all;}
+  .info-panel{position:fixed;top:0;right:-500px;width:460px;height:100vh;background:#fff;box-shadow:-6px 0 32px rgba(0,0,0,0.1);z-index:201;transition:right 0.25s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .info-panel.open{right:0;}
+  .info-panel-head{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;background:#fff;z-index:1;}
+  .info-panel-head h3{font-size:14px;font-weight:700;line-height:1.4;}
+  .info-panel-close{background:none;border:none;cursor:pointer;color:var(--text-3);font-size:22px;line-height:1;padding:0;margin-top:-2px;}
+  .info-panel-close:hover{color:var(--text);}
+  .info-panel-body{padding:20px 24px;flex:1;}
+  .info-sec{margin-bottom:22px;}
+  .info-sec-title{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#185FA5;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid var(--blue-l);}
+  .info-sec p,.info-sec li{font-size:13px;color:var(--text-2);line-height:1.65;}
+  .info-sec ul{padding-left:16px;margin-top:4px;}
+  .info-sec li{margin-bottom:4px;}
+  .info-sec strong{color:var(--text);font-weight:600;}
+  .info-warn{background:#FFF8EC;border-left:3px solid #F0B429;border-radius:0 6px 6px 0;padding:8px 12px;font-size:12px;color:#7A4F00;margin-top:8px;line-height:1.5;}
   #login-overlay{position:fixed;inset:0;background:#1F3864;display:flex;align-items:center;justify-content:center;z-index:9999;}
   #login-box{background:#fff;border-radius:12px;padding:40px 48px;width:340px;text-align:center;}
   #login-box .org{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#185FA5;margin-bottom:4px;}
@@ -145,6 +165,7 @@
 
         <!-- TAB 1: Totale markt jaar -->
         <div class="page active" id="page-totaal">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('totaal')" title="Toelichting &amp; methodologie">ℹ</button></div>
 
           <!-- Rij 1: GWP KPI's (badge + waarde in één tile) -->
           <div class="grid-3" id="tot-kpi-gwp" style="margin-bottom:16px"></div>
@@ -203,6 +224,7 @@
 
         <!-- TAB 2: Kwartaal totaal -->
         <div class="page" id="page-kwartaal">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('kwartaal')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="note-box">Kwartaaldata op sectorniveau — markttotalen per segment, niet uitgesplitst per verzekeraar. Conform methodologiebeslissing #8.<br><strong>Q1 is structureel hoger</strong> dan overige kwartalen: verzekeraars boeken jaarpolissen die per 1 januari ingaan grotendeels in Q1. Dit is een inherent kenmerk van de Nederlandse verzekeringsmarkt, geen datafout.<br><strong>Kwartaalsom ≈ 97% van jaarcijfer:</strong> een klein aantal LOBs rapporteert alleen op jaarbasis aan DNB en ontbreekt daardoor in de kwartaalstatistiek.</div>
           <div class="filters">
             <label>Vanaf: <select id="sel-jaar-kw" onchange="updateKwartaal()"><option value="2020" selected>2020</option><option value="2021">2021</option><option value="2022">2022</option></select></label>
@@ -246,6 +268,7 @@
 
         <!-- TAB 3: Schade -->
         <div class="page" id="page-schade">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('schade')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--blue-l);color:#0C447C">Schade</span>
             <span style="font-size:13px;color:var(--text-3)">Motorrijtuigen, brand, aansprakelijkheid, transport en overige schade</span>
@@ -275,6 +298,7 @@
 
         <!-- TAB 4: Inkomen -->
         <div class="page" id="page-inkomen">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('inkomen')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--amber-l);color:#633806">Inkomen</span>
             <span style="font-size:13px;color:var(--text-3)">Verzuim, WIA, WGA-ERD en AOV — kortlopend (non-SLT) + langlopend (SLT) gecombineerd</span>
@@ -307,6 +331,7 @@
 
         <!-- TAB 5: Zorg -->
         <div class="page" id="page-zorg">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('zorg')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="segment-header">
             <span class="segment-badge" style="background:var(--teal-l);color:#085041">Zorg</span>
             <span style="font-size:13px;color:var(--text-3)">Zorgverzekering (Zvw + aanvullend) — medical expense LOB</span>
@@ -331,6 +356,7 @@
 
         <!-- TAB 6: Marktaandelen -->
         <div class="page" id="page-marktaandelen">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('marktaandelen')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="filters">
             <label>Segment: <select id="sel-seg-ma" onchange="updateMarkt()"><option value="schade" selected>Schade</option><option value="zorg">Zorg</option><option value="inkomen">Inkomen</option></select></label>
             <label>Jaar: <select id="sel-jaar-ma" onchange="updateMarkt()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
@@ -365,6 +391,7 @@
 
         <!-- TAB: Ratio's per partij -->
         <div class="page" id="page-ratio-partij">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('ratio-partij')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="filters" style="align-items:flex-end;gap:16px;flex-wrap:wrap">
             <label>Weergave: <select id="sel-view-rp" onchange="initRatioPartij()"><option value="entiteit" selected>Per entiteit</option><option value="concern">Per concern</option></select></label>
             <label style="flex:1;min-width:260px">Partij:
@@ -394,6 +421,7 @@
 
         <!-- TAB 7: Detailtabel -->
         <div class="page" id="page-tabel">
+          <div class="info-bar"><button class="info-btn" onclick="openInfo('tabel')" title="Toelichting &amp; methodologie">ℹ</button></div>
           <div class="filters">
             <label>Jaar: <select id="sel-jaar-tbl" onchange="updateTabel()"><option value="2024" selected>2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option></select></label>
             <label>Segment: <select id="sel-seg-tbl" onchange="updateTabel()"><option value="all">Alle</option><option value="Schade">Schade</option><option value="Inkomen">Inkomen</option><option value="Zorg">Zorg</option></select></label>
@@ -411,6 +439,16 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Info-paneel (eenmalig, gedeeld door alle tabs) -->
+<div class="info-backdrop" id="info-backdrop" onclick="closeInfo()"></div>
+<div class="info-panel" id="info-panel">
+  <div class="info-panel-head">
+    <h3 id="info-panel-title"></h3>
+    <button class="info-panel-close" onclick="closeInfo()" title="Sluiten">×</button>
+  </div>
+  <div class="info-panel-body" id="info-panel-body"></div>
 </div>
 
 <script>
@@ -1623,6 +1661,79 @@ async function checkLogin(){
     btn.textContent="Inloggen";
   }
 }
+/* ── Info-paneel ── */
+const INFO = {
+  totaal:{
+    title:'Totale markt (jaar) — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life jaar:</strong> GWP per LOB voor Schade en Zorg (sectorniveau)</li><li><strong>DNB Individuele Gegevens Excel:</strong> Life Disability insurance voor de Inkomen SLT-stroom (langlopende AOV, WGA-ERD)</li></ul>',
+    definities:'<ul><li><strong>GWP (Gross Written Premiums):</strong> Bruto geboekte premies directe verzekering, vóór aftrek herverzekering</li><li><strong>CAGR:</strong> Samengesteld jaarlijks groeipercentage over 2020–2024</li><li><strong>Combined ratio:</strong> Schaderatio + expense ratio op netto verdiende premies. Boven 100% = technisch verlies</li><li><strong>Schade:</strong> Motor WA/casco, brand, aansprakelijkheid, rechtsbijstand, hulpverlening, transport, krediet en overige financiële schade</li><li><strong>Inkomen:</strong> Income protection (non-SLT) + Disability insurance life (SLT) — altijd opgeteld</li><li><strong>Zorg:</strong> Medical expense — Zvw en aanvullend gecombineerd</li></ul>',
+    methodologie:'<ul><li>Tijdreeks 2020–heden — pre-2020 niet consistent vergelijkbaar door Delta Lloyd/NN-fusie (beslissing #1)</li><li>Inkomen is altijd de som van twee Solvency II-stromen: non-life + life (beslissing #7)</li><li>GWP op bruto basis; combined ratio\'s op netto verdiende premies (beslissing #5)</li><li>Basis: Solvency II QRT S.05.01 — IFRS17-neutraal en consistent over gehele tijdreeks (beslissing #9)</li></ul>',
+    beperkingen:'<ul><li>EU-paspoort verzekeraars ontbreken — blinde vlek ≈ 33% schademarkt (Baken 2024)</li><li>Zvw en aanvullende zorgverzekering zijn niet splitsbaar in Solvency II-data</li><li>Groei is nominaal — geen correctie voor inflatie</li><li>Combined ratio\'s zijn sectorniveau — individuele partijafwijkingen niet zichtbaar op deze tab</li></ul><div class="info-warn">⚠ Marktomvang is een onderschatting: EU-paspoort partijen vallen buiten de DNB-scope.</div>'
+  },
+  kwartaal:{
+    title:'Totale markt (kwartaal) — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life kwartaal:</strong> GWP per LOB voor Schade en Zorg (sectorniveau, YTD cumulatief)</li></ul><div class="info-warn">⚠ De Inkomen SLT-stroom (life Disability insurance) is niet beschikbaar in de kwartaalstatistiek. Inkomencijfers op kwartaalbasis zijn daardoor incompleet.</div>',
+    definities:'<ul><li><strong>YTD cumulatief:</strong> DNB levert cumulatieve kwartaalwaarden. Q2 = som van Q1+Q2. Het dashboard converteert automatisch naar losse kwartaalwaarden.</li><li><strong>Q1-piek:</strong> Jaarpolissen geboekt per 1 januari → Q1 bevat structureel ~34% van het jaarcijfer. Geen datafout.</li><li><strong>YoY:</strong> Year-over-Year — vergelijking met hetzelfde kwartaal vorig jaar</li></ul>',
+    methodologie:'<ul><li>Kwartaaldata is YTD cumulatief (beslissing #10) — omgezet naar incrementele kwartaalwaarden</li><li>Kwartaal- en jaardata worden nooit gecombineerd in één visualisatie (beslissing #8)</li><li>Q1-piek is een structureel marktkenmerk, geen datafout</li></ul>',
+    beperkingen:'<ul><li>Inkomen SLT-stroom (langlopende AOV, WGA-ERD) ontbreekt — alleen non-SLT beschikbaar per kwartaal</li><li>EU-paspoort verzekeraars niet meegenomen</li><li>Kwartaalcijfers zijn niet seizoensgecorrigeerd</li><li>Geen entiteitsdata op kwartaalniveau — uitsluitend sectortotalen</li></ul>'
+  },
+  schade:{
+    title:'Schade — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life jaar:</strong> GWP en schaden per LOB, sectorniveau</li><li><strong>DNB Individuele Gegevens Excel:</strong> GWP en ratio\'s per entiteit voor marktaandelen en ratio-analyse</li></ul>',
+    definities:'<ul><li><strong>LOBs onder Schade:</strong> Motor WA, Motor casco, Brand en goederen, Aansprakelijkheid, Rechtsbijstand, Hulpverlening, Transport, Krediet en borgtocht, Overige financiële schade</li><li><strong>GWP per LOB:</strong> Bruto geboekte premies per Solvency II Line of Business, directe verzekering</li><li><strong>Combined ratio per LOB:</strong> Schaderatio + expense ratio op netto verdiende premies</li></ul>',
+    methodologie:'<ul><li>Tijdreeks 2020–heden (beslissing #1)</li><li>GWP bruto; ratio\'s op netto verdiende premies (beslissing #5)</li><li>ASR/Aegon-fusie per oktober 2023 veroorzaakt een breuk in trendlijnen (beslissing #2)</li><li>Partijen onder DNB-toezicht zijn volledig; EU-paspoort partijen ontbreken (beslissingen #3 en #4)</li></ul>',
+    beperkingen:'<ul><li>EU-paspoort verzekeraars ontbreken — ≈33% schademarkt niet zichtbaar</li><li>Cyber is geen eigen LOB in Solvency II — versnipperd over brand, aansprakelijkheid en overige schade</li><li>Reisverzekering versnipperd over Assistance en Financial loss</li><li>Herverzekering buiten beeld — GWP is altijd bruto</li></ul>'
+  },
+  inkomen:{
+    title:'Inkomen — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life jaar:</strong> Income protection LOB (verzuim, WIA-excedent, kortlopende AOV)</li><li><strong>DNB Individuele Gegevens Excel:</strong> Life Disability insurance (langlopende AOV, WGA-ERD)</li></ul><div class="info-warn">⚠ Beide stromen zijn altijd opgeteld voor de totale inkomensmarkt. Gebruik nooit alleen de non-life stroom.</div>',
+    definities:'<ul><li><strong>Non-SLT stroom:</strong> Income protection (non-life) — verzuim, WIA-excedent en kortlopende AOV. Contracten zonder gegarandeerde looptijd of premie.</li><li><strong>SLT-stroom:</strong> Disability insurance (life) — langlopende AOV en WGA-ERD. Contracten met gegarandeerde looptijd of premie.</li><li><strong>Workers\' compensation:</strong> Toont €0 directe premies in NL — altijd gefilterd.</li></ul>',
+    methodologie:'<ul><li>Inkomensmarkt = non-SLT + SLT, opgeteld zonder dubbeltellingen (methodologiebeslissing #7)</li><li>Dezelfde verzekeraar rapporteert beide stromen in aparte QRT-sjablonen</li><li>SLT-stroom beschikbaar via DNB Individuele Excel — niet via de Statistiek API op sectorniveau</li></ul>',
+    beperkingen:'<ul><li>WGA-ERD en langlopende AOV zijn niet apart splitsbaar — beide geboekt onder Disability insurance life</li><li>Kwartaaldata voor de SLT-stroom ontbreekt — kwartaalcijfers inkomen zijn daardoor incompleet</li><li>Eigenrisicodragerschap (ERD) valt buiten de verzekeringsdata — omvang ERD-markt niet zichtbaar</li></ul>'
+  },
+  zorg:{
+    title:'Zorg — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life jaar en kwartaal:</strong> Medical expense LOB, sectorniveau</li></ul>',
+    definities:'<ul><li><strong>Medical expense:</strong> De enige Solvency II LOB voor zorgverzekeringen. Bevat Zvw (basisverzekering) én aanvullende zorgverzekering gecombineerd.</li><li><strong>Zvw:</strong> Basisverzekering conform de Zorgverzekeringswet — verplicht, gereguleerde premie</li><li><strong>Aanvullende zorgverzekering:</strong> Vrijwillig, vrije premiestelling</li></ul>',
+    methodologie:'<ul><li>Zvw en aanvullend zijn in Solvency II niet te splitsen (methodologiebeslissing #11)</li><li>GWP op bruto basis (beslissing #5)</li><li>EU-paspoort niet relevant voor zorg — nationaal stelsel vereist DNB-vergunning</li></ul>',
+    beperkingen:'<ul><li>Zvw en aanvullende zorg zijn niet afzonderlijk zichtbaar — analyse vereist Vektis-data of jaarverslagen</li><li>Tandverzekering valt onder aanvullende zorg maar is niet identificeerbaar</li><li>GWP-groei is deels volumegroei (meer verzekerden) en deels premiestijging — niet te splitsen</li></ul>'
+  },
+  marktaandelen:{
+    title:'Marktaandelen — Toelichting',
+    data:'<ul><li><strong>DNB Individuele Gegevens Excel (Solo\'s; jaar):</strong> GWP per entiteit per LOB per jaar — handmatig geüpload vanuit DNB-publicatie</li></ul>',
+    definities:'<ul><li><strong>Entiteit:</strong> Individuele juridische verzekeraar zoals geregistreerd bij DNB</li><li><strong>Concern:</strong> Groepering van entiteiten onder één moedermaatschappij — op basis van Riverwise-concernmapping</li><li><strong>Marktaandeel:</strong> GWP van entiteit of concern gedeeld door het segment-totaal (DNB Statistiek API)</li></ul>',
+    methodologie:'<ul><li>Concernmapping is een Riverwise-eigendomstabel — niet automatisch uit DNB-data afgeleid (beslissing #6)</li><li>ASR/Aegon: Aegon Schadeverzekering verdwijnt per Q4 2023 en gaat op in ASR (beslissing #2)</li><li>Marktaandeel berekend t.o.v. DNB sector-totaal — EU-paspoort partijen zitten niet in de noemer</li></ul>',
+    beperkingen:'<ul><li>EU-paspoort verzekeraars ontbreken (≈33% schademarkt) — marktaandelen zijn relatief t.o.v. DNB-populatie, niet de totale markt</li><li>Marktaandelen van partijen in DNB-scope zijn daardoor overschat</li><li>Concernmapping wordt handmatig bijgehouden — wijzigingen in eigendomsstructuur kunnen vertraging hebben</li></ul><div class="info-warn">⚠ Marktaandeel van bijv. Achmea of NN is gemeten t.o.v. de DNB-populatie, niet t.o.v. de volledige markt inclusief EU-paspoort partijen.</div>'
+  },
+  'ratio-partij':{
+    title:"Ratio's per partij — Toelichting",
+    data:'<ul><li><strong>DNB Individuele Gegevens Excel (Solo\'s; jaar):</strong> Claims en premies per entiteit per LOB — ratio\'s worden berekend bij het laden van het dashboard</li></ul>',
+    definities:'<ul><li><strong>Schaderatio:</strong> Claims incurred (netto, na herverzekering) / Premiums earned (netto) × 100%</li><li><strong>Expense ratio:</strong> Expenses incurred (totaal) / Premiums earned (netto) × 100%</li><li><strong>Combined ratio:</strong> Schaderatio + expense ratio. Groen &lt; 90%, amber 90–100%, rood &gt; 100%</li><li><strong>Netto verdiende premies:</strong> Na aftrek herverzekering, voor de verdiende periode (earned, niet written)</li></ul>',
+    methodologie:'<ul><li>Ratio\'s berekend op netto basis — na herverzekering (beslissing #5)</li><li>Combined ratio &gt; 100% = technische activiteiten verliesgevend, exclusief beleggingsopbrengsten</li><li>IFRS17 raakt NN, ASR en Achmea op winstgevenheidsmetrieken vanaf 2023 — niet op GWP (beslissing #9)</li></ul>',
+    beperkingen:'<ul><li>Kleine entiteiten kunnen extreme ratio\'s tonen door geringe premieomvang — statistisch minder betrouwbaar</li><li>Beleggingsresultaat niet meegenomen — combined ratio geeft geen totaalplaatje van winstgevendheid</li><li>EU-paspoort verzekeraars ontbreken</li><li>Concernaggregaties zijn gewogen naar netto verdiende premies per LOB</li></ul>'
+  },
+  tabel:{
+    title:'Detailtabel — Toelichting',
+    data:'<ul><li><strong>DNB Statistiek API — non-life jaar:</strong> GWP per Solvency II LOB, sectorniveau</li></ul><div class="info-warn">⚠ De Inkomen SLT-stroom (life Disability insurance) ontbreekt in deze tabel.</div>',
+    definities:'<ul><li><strong>GWP (€ mln):</strong> Bruto geboekte premies directe verzekering in miljoenen euro\'s</li><li><strong>Aandeel:</strong> GWP van de LOB als % van het segment-totaal</li><li><strong>vs. vorig jaar:</strong> Procentuele mutatie t.o.v. het voorgaande jaar</li></ul>',
+    methodologie:'<ul><li>LOBs conform Solvency II QRT S.05.01 definitie</li><li>Workers\' compensation altijd gefilterd — €0 directe premies in NL</li><li>Tijdreeks 2020–heden (beslissing #1)</li></ul>',
+    beperkingen:'<ul><li>Uitsluitend sectorniveau — geen entiteitsdata in deze tabel</li><li>Inkomen SLT-stroom (life) ontbreekt</li><li>EU-paspoort verzekeraars niet meegenomen</li></ul>'
+  }
+};
+
+function iSec(title,html){return '<div class="info-sec"><div class="info-sec-title">'+title+'</div>'+html+'</div>';}
+function openInfo(tab){
+  const d=INFO[tab]; if(!d) return;
+  document.getElementById('info-panel-title').textContent=d.title;
+  document.getElementById('info-panel-body').innerHTML=[iSec('Gebruikte data',d.data),iSec('Definities',d.definities),iSec('Methodologie',d.methodologie),iSec('Wat mist in de data',d.beperkingen)].join('');
+  document.getElementById('info-backdrop').classList.add('open');
+  document.getElementById('info-panel').classList.add('open');
+}
+function closeInfo(){
+  document.getElementById('info-backdrop').classList.remove('open');
+  document.getElementById('info-panel').classList.remove('open');
+}
+
 window.addEventListener("DOMContentLoaded",function(){
   if(sessionStorage.getItem("dnb_ok")==="1"){
     document.getElementById("login-overlay").style.display="none";
